@@ -1,11 +1,7 @@
 {
     "Input": "CSVREADER",
     "Output": "Console",
-    "RegionType": "Country",
-    "Region":"Germany",
-    "Year":"1991"
-
-
-
+    "Continent": "Asia",
+    "Year":1991
 
 }
