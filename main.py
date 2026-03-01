@@ -1,12 +1,16 @@
 import json
 import sys
 from core.engine import Orchestrator
-from plugins.input import CsvReader
+from plugins.input import CSVReader, JSONReader
 from plugins.output import ConsoleWriter, GraphicsChartWriter
 
 outputChoices = {
     "1": ConsoleWriter,
     "2": GraphicsChartWriter
+}
+InputChoices = {
+    "1": CSVReader,
+    "2": JSONReader
 }
 
 validKeys = {
@@ -94,6 +98,14 @@ def CheckWriter(config: dict) -> bool:
         print('Writer can only be "ConsoleWriter" or "GraphicsChartWriter".Fix config.json')
         return False
     return True
+def CheckReader(config: dict) -> bool:
+    if type(config.get("Reader")) is not str:
+        print("Reader must be string. Fix config.json")
+        return False
+    if config.get("Reader").lower() not in ["csvreader","jsonreader"]:
+        print('Reader can only be "CSVReader" or "JSONReader".Fix config.json')
+        return False
+    return True
 
 def ConfigChecks(config:dict) -> bool:
     continent: bool = CheckContinent(config)
@@ -101,7 +113,8 @@ def ConfigChecks(config:dict) -> bool:
     ranges: bool = CheckYearRange(config)
     timeline: bool = CheckTimeLine(config)
     writer: bool = CheckWriter(config)
-    return continent and target and ranges and timeline and writer
+    reader: bool = CheckReader(config)
+    return continent and target and ranges and timeline and writer and reader
 
 def getWriterID(config:dict) -> str:
     if config.get("Writer").lower() == 'consolewriter':
@@ -109,6 +122,14 @@ def getWriterID(config:dict) -> str:
 
     else:
         return '2'
+def getReaderID(config:dict) -> str:
+    if config.get("Reader").lower() == 'csvreader':
+        return '1'
+
+    else:
+        return '2'
+
+
 
 def MAIN() -> None:
     print("Welcome to the Orchestra, Have a look around")
@@ -136,11 +157,13 @@ def MAIN() -> None:
     #writeConfig(configData)
 
     writerClass = outputChoices.get(getWriterID(config))
+    ReaderClass = InputChoices.get(getReaderID(config))
+    print(getReaderID(config))
     sink = writerClass()
 
     try:
         engine = Orchestrator(sink=sink, configFile=config)
-        source = CsvReader(service=engine)
+        source = ReaderClass(engine)
         source.run()
     except Exception as e:
         print()

@@ -1,5 +1,5 @@
 {
-    "Reader": "Csvreader",
+    "Reader": "jsonreader",
     "Writer": "graphicschartwriter",
     "Continent": "europe",
     "TargetYear": 1999,
