@@ -50,8 +50,10 @@ def CheckKeys(config: dict) -> bool:
 
 def CheckContinent(config: dict) -> bool:
     if type(config.get("Continent")) is not str:
+        print("Continent name must be a string")
         return False
     if config.get("Continent").title() not in validContinents:
+        print("Invalid continent name")
         return False
     return True
 def CheckTargetYear(config: dict) -> bool:
