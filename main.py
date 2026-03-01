@@ -157,7 +157,6 @@ def MAIN() -> None:
 
     writerClass = outputChoices.get(getWriterID(config))
     ReaderClass = InputChoices.get(getReaderID(config))
-    print(getReaderID(config))
     sink = writerClass()
 
     try:
