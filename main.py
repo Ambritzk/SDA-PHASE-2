@@ -4,6 +4,8 @@ from core.engine import Orchestrator
 from plugins.input import CSVReader, JSONReader
 from plugins.output import ConsoleWriter, GraphicsChartWriter
 
+
+
 outputChoices = {
     "1": ConsoleWriter,
     "2": GraphicsChartWriter
@@ -143,18 +145,7 @@ def MAIN() -> None:
 
     config : dict = ReadConfig()
     if ConfigChecks(config) == False:
-        return 2
-
-    #configData = configWork()
-
-    # print()
-    # print("Select Output Sink Choioce:")
-    # print("1. Console Output (Text/Data)")
-    # print("2. Graphics Chart Output (Matplotlib UI)")
-    #choice = choiceOutput()
-    
-
-    #writeConfig(configData)
+        sys.exit(2)
 
     writerClass = outputChoices.get(getWriterID(config))
     ReaderClass = InputChoices.get(getReaderID(config))
