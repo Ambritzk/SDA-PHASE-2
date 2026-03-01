@@ -34,9 +34,12 @@ validContinents = {
 }
 
 def ReadConfig() -> dict:
-    with open("config.json","r") as file:
-        return json.load(file)
-
+    try:
+        with open("config.json","r") as file:
+            return json.load(file)
+    except json.JSONDecodeError:
+        print("Something seems to be wrong with the config.json file")
+    return {}
 
 def CheckKeys(config: dict) -> bool:
     tolower = lambda x: {k.lower() for k in x}
@@ -46,6 +49,8 @@ def CheckKeys(config: dict) -> bool:
             return False
 
 def CheckContinent(config: dict) -> bool:
+    if type(config.get("Continent")) is not str:
+        return False
     if config.get("Continent").title() not in validContinents:
         return False
     return True
@@ -144,6 +149,9 @@ def MAIN() -> None:
 
 
     config : dict = ReadConfig()
+    if config == {}:
+        sys.exit(3)
+
     if ConfigChecks(config) == False:
         sys.exit(2)
 

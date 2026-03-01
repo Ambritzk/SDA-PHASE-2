@@ -24,11 +24,16 @@ class JSONReader:
         self.service = ServiceFromCore
         #First we need to get the csv file. We therefore go to the parent directory and then enter into the data directory
         file_path = Path(__file__).parent.parent.absolute() / 'data' / 'gdp_with_continent_filled.json'
-        with open(file_path, "r", encoding="utf-8") as file:
-            raw_data = file.read()
-            valid = raw_data.replace('#@$!\\','NaN').replace('NaN','0')
-            final = json.loads(valid)
-            self.data = final
+        try:
+            with open(file_path, "r", encoding="utf-8") as file:
+                raw_data = file.read()
+                valid = raw_data.replace('#@$!\\','NaN').replace('NaN','0')
+                final = json.loads(valid)
+                self.data = final
+        except FileNotFoundError:
+            print('"gdp_with_continent_filled.json" not found')
+
+            
     def run(self):
         self.service.execute(self.data)
 
