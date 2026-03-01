@@ -1,0 +1,9 @@
+{
+    "Reader": "Csvreader",
+    "Writer": "graphicschartwriter",
+    "Continent": "europe",
+    "TargetYear": 1999,
+    "StartYear": 2008,
+    "EndYear": 2010,
+    "OutputTimeline": "range"
+}
