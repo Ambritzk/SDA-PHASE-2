@@ -192,9 +192,9 @@ def validateConfig(config: dict, availableYears: List[int], availableContinents:
 
 
 class Orchestrator:
-    def __init__(self, sink: DataSink, configFile: dict):
+    def __init__(self, sink: DataSink, configPath: str = "config.json"):
         self.sink = sink
-        self.config = configFile
+        self.config = loadConfig(configPath)
 
     def execute(self, rawData: List[Dict[str, Any]]) -> None:
         countriesOnly = filterCountries(rawData)
@@ -208,18 +208,12 @@ class Orchestrator:
         yearsAvail = sorted(list(map(convertToInt, filter(extractNumericKeys, countriesOnly[0].keys()))))
         continentsAvail = getUniqueContinents(countriesOnly)
 
-        #validateConfig(self.config, yearsAvail, continentsAvail)
+        validateConfig(self.config, yearsAvail, continentsAvail)
 
-        continent = self.config.get("Continent").title()
+        continent = self.config.get("Continent")
         targetYear = str(self.config.get("TargetYear"))
         startYear = self.config.get("StartYear")
         endYear = self.config.get("EndYear")
-
-        #configuring timeline for functions
-        if self.config.get("OutputTimeline").lower() == 'range':
-            targetYear = str(endYear)
-        if self.config.get("OutputTimeline").lower() == "specificyear":
-            startYear = endYear = int(targetYear)
 
         targetContinentData = filterByContinent(countriesOnly, continent)
 
