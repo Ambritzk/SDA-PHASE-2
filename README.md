@@ -1,5 +1,7 @@
 # SDA-PHASE-2  
 
+[a]
+
 Let me first try to give a little intro to typing protocols, or atleast the way I understood it (It's prolly wrong, but if it helps, it helps :) ).
 A protocol is an abstract class that allows you to implement polymorphism in python without the child classes having to inherit from the abstract class, like we had to do in C++. Instead, we define certain functions in the protocol class. And then any other random class in our project that contains functions from the abstract class, are treated like they're like that abstract class.  
 
